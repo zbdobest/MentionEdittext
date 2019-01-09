@@ -1,18 +1,127 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:orientation="vertical">
+
+    <com.example.zhangbo81.mentionedittext.widget.MentionEditText
+        android:id="@+id/mentionedittext"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:background="#ffffff"
+        android:gravity="top"
+        android:hint="想到什么，快来说一说。"
+        android:textSize="14sp"
+        android:maxLength="120"
+        android:padding="15dp" />
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#ecedf2" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+
+        <LinearLayout
+            android:id="@+id/ll_insert_stock"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/icon_insert_stock" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:text="股票"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="1px"
+            android:layout_height="match_parent"
+            android:background="#ecedf2" />
+
+        <LinearLayout
+            android:id="@+id/ll_insert_topic"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/icon_insert_topic" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:text="话题"
+                android:textSize="14sp" />
+        </LinearLayout>
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#ecedf2" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        >
+
+        <Button
+            android:id="@+id/btn_save"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="保存到草稿箱"
+            android:textSize="14sp"
+            android:background="#ffffff"
+            />
+        <View
+            android:layout_width="1px"
+            android:layout_height="match_parent"
+            android:background="#ecedf2"/>
+        <Button
+            android:id="@+id/btn_show_save"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:textSize="14sp"
+            android:text="获取草稿箱内容"
+            android:background="#ffffff"
+            />
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#ecedf2" />
 
     <TextView
-        android:layout_width="wrap_content"
+        android:id="@+id/tv_show_text"
+        android:padding="5dp"
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:textSize="14sp"
+        />
 
-</android.support.constraint.ConstraintLayout>
+</LinearLayout>
