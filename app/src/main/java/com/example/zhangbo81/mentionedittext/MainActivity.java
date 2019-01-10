@@ -5,17 +5,20 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Base64;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.zhangbo81.mentionedittext.bean.DynamicPostResult;
 import com.example.zhangbo81.mentionedittext.bean.DynamicSaveResult;
 import com.example.zhangbo81.mentionedittext.bean.StockSearchResult;
 import com.example.zhangbo81.mentionedittext.bean.TopicSearchResult;
 import com.example.zhangbo81.mentionedittext.ui.StockListActivity;
 import com.example.zhangbo81.mentionedittext.ui.TopicListActivity;
+import com.example.zhangbo81.mentionedittext.utils.DynamicTextShowUtils;
 import com.example.zhangbo81.mentionedittext.widget.MentionEditText;
 
 import java.io.ByteArrayInputStream;
@@ -24,6 +27,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -32,7 +36,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private LinearLayout insertTopicLayout;
     private Button btnSave;
     private Button btnShow;
+    private Button btnGetContent;
     private TextView tvContent;
+    private TextView tvContentDetails;
 
     public static final int REQUEST_USER_APPEND = 1 << 2;
     public static final int REQUEST_TAG_APPEND = 1 << 3;
@@ -57,6 +63,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         insertTopicLayout.setOnClickListener(this);
         btnSave.setOnClickListener(this);
         btnShow.setOnClickListener(this);
+        btnGetContent.setOnClickListener(this);
     }
 
     private void initView() {
@@ -65,7 +72,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         insertTopicLayout = findViewById(R.id.ll_insert_topic);
         btnSave = findViewById(R.id.btn_save);
         btnShow = findViewById(R.id.btn_show_save);
+        btnGetContent = findViewById(R.id.btn_get_content);
         tvContent = findViewById(R.id.tv_show_text);
+        tvContentDetails = findViewById(R.id.tv_look_details);
 
         sp = getSharedPreferences("topic_sp",MODE_PRIVATE);
     }
@@ -93,6 +102,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btn_show_save:
                 DynamicSaveResult dynamicSaveResult1 = (DynamicSaveResult) getObject("dynamic_save_text");
                 mentionEditText.setSaveText(dynamicSaveResult1);
+                break;
+            case R.id.btn_get_content:
+                if (TextUtils.isEmpty(mentionEditText.getText())) {
+                    return;
+                }
+                tvContent.setMaxLines(4);
+               final DynamicPostResult dynamicPostResult = mentionEditText.getFormatTarget();
+                DynamicTextShowUtils.setDynamicText(this, tvContent, tvContentDetails, dynamicPostResult.text.toString(), dynamicPostResult.list, false, new DynamicTextShowUtils.DetailsClickListener() {
+                    @Override
+                    public void onDetailsClick() {
+                        tvContent.setMaxLines(100000);
+                        DynamicTextShowUtils.setDynamicText(MainActivity.this, tvContent, tvContentDetails, dynamicPostResult.text.toString(), dynamicPostResult.list, false, new DynamicTextShowUtils.DetailsClickListener() {
+                            @Override
+                            public void onDetailsClick() {
+
+                            }
+                        },new Random().nextInt(10)+"",true);
+                    }
+                },new Random().nextInt(10)+"",false);
                 break;
         }
 

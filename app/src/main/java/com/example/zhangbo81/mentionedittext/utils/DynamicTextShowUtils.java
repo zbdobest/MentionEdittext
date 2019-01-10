@@ -11,6 +11,7 @@ import android.text.style.ClickableSpan;
 import android.text.style.ImageSpan;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.zhangbo81.mentionedittext.bean.LableJson;
 import com.example.zhangbo81.mentionedittext.R;
@@ -36,7 +37,7 @@ public class DynamicTextShowUtils {
      * @param isTop            是否为置顶文本
      */
     public static void setDynamicText(final Context context, final TextView tvDynamicContent, final TextView goDynamicDetails, final String content,
-                                      List<LableJson> lableJson, final boolean isTop, final DetailsClickListener listener, String id) {
+                                      List<LableJson> lableJson, final boolean isTop, final DetailsClickListener listener, String id,final boolean showAll) {
         if (null == content) {
             return;
         }
@@ -66,25 +67,33 @@ public class DynamicTextShowUtils {
             @Override
             public void run() {
                 try{
-                    int lines = tvDynamicContent.getLineCount();
-                    if (lines > 4) {
-                        result = "";
-                        int start = 0;
-                        int end;
-                        Layout layout = tvDynamicContent.getLayout();
-
-                        for (int i = 0; i < 4; i++) {
-                            end = layout.getLineEnd(i);
-                            if (content.length() > start && content.length() > end) {
-                                result += content.substring(start, end);
-                                start = end;
-                            }
-                        }
-                        goDynamicDetails.setVisibility(View.VISIBLE);
-                    } else {
+                    if (showAll) {
+                        tvDynamicContent.setMaxLines(100000);
                         goDynamicDetails.setVisibility(View.GONE);
                         result = content;
+                    }else {
+                        tvDynamicContent.setMaxLines(4);
+                        int lines = tvDynamicContent.getLineCount();
+                        if (lines > 4) {
+                            result = "";
+                            int start = 0;
+                            int end;
+                            Layout layout = tvDynamicContent.getLayout();
+
+                            for (int i = 0; i < 4; i++) {
+                                end = layout.getLineEnd(i);
+                                if (content.length() > start && content.length() > end) {
+                                    result += content.substring(start, end);
+                                    start = end;
+                                }
+                            }
+                            goDynamicDetails.setVisibility(View.VISIBLE);
+                        }else {
+                            goDynamicDetails.setVisibility(View.GONE);
+                            result = content;
+                        }
                     }
+
                     tvDynamicContent.setText("");
 
                     int length = result.length();
@@ -113,10 +122,12 @@ public class DynamicTextShowUtils {
                                 @Override
                                 public void onClick(View view) {
                                     if (0==finalLableJson.type) {
-
+                                        //股票
+                                        Toast.makeText(context,"股票代码="+finalLableJson.data+"股票类型="+finalLableJson.dataType,Toast.LENGTH_SHORT).show();
 
                                     } else if (1==finalLableJson.type) {
-
+                                        //话题
+                                        Toast.makeText(context,"话题id="+finalLableJson.data,Toast.LENGTH_SHORT).show();
 
                                     } else if (2==finalLableJson.type) {
                                         //计划

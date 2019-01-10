@@ -131,7 +131,7 @@ public class MentionEditText extends EditText {
             //是否插入相同话题
             List<Range> list = mRangeManager.getTopicList();
             for (Range range : list) {
-                if(range.data != null && range.data.equals(data)){
+                if(range.data != null && range.data.equals(data) && 1== type){
                     Toast.makeText(context, "不能插入相同话题", Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -140,9 +140,9 @@ public class MentionEditText extends EditText {
             Editable editable = getText();
             int start = getSelectionStart();
             int end = start + charSequence.length();
-            if(end > 500){
-                return;
-            }
+//            if(end > 500){
+//                return;
+//            }
             editable.insert(start, charSequence+" ");
             FormatRange.Convert format = insertData.formatData();
             FormatRange range = new FormatRange(start, end);
